@@ -1,7 +1,6 @@
 # Install with: helm install vprofile ./vprofile-helm
 # The release name controls all resource names unless nameOverride is set.
 nameOverride: ""
-
 database:
   replicaCount: 1
   image:
@@ -40,7 +39,6 @@ database:
     limits:
       cpu: 100m
       memory: 64Mi
-
 cache:
   replicaCount: 1
   image:
@@ -57,7 +55,6 @@ cache:
     limits:
       cpu: "1"
       memory: 1Gi
-
 rabbitmq:
   replicaCount: 1
   username: guest
@@ -76,13 +73,12 @@ rabbitmq:
     limits:
       cpu: "1"
       memory: 1Gi
-
 application:
   replicaCount: 1
   initImage: busybox:1.28
   image:
-    repository: meissa20/vproapp
-    tag: latest
+    repository: 454983519185.dkr.ecr.eu-west-1.amazonaws.com/vprofileapp-img
+    tag: 37efbf0cce89a53e879502414de8cd989bd4760d
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -94,7 +90,6 @@ application:
     limits:
       cpu: "1"
       memory: 1Gi
-
 ingress:
   enabled: true
   className: alb
