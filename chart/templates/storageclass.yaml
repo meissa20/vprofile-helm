@@ -1,0 +1,15 @@
+{{- if .Values.database.storageClass.create }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ include "vprofile.componentName" (dict "root" . "component" "ebs") }}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: {{ .Values.database.storageClass.default | quote }}
+provisioner: {{ .Values.database.storageClass.provisioner }}
+parameters:
+  type: {{ .Values.database.storageClass.type }}
+  encrypted: {{ .Values.database.storageClass.encrypted | quote }}
+reclaimPolicy: {{ .Values.database.storageClass.reclaimPolicy }}
+volumeBindingMode: {{ .Values.database.storageClass.volumeBindingMode }}
+allowVolumeExpansion: {{ .Values.database.storageClass.allowVolumeExpansion }}
+{{- end }}

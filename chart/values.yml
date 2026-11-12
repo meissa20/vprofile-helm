@@ -1,0 +1,110 @@
+# Install with: helm install vprofile ./vprofile-helm
+# The release name controls all resource names unless nameOverride is set.
+nameOverride: ""
+
+database:
+  replicaCount: 1
+  image:
+    repository: meissa20/vprodb
+    tag: latest
+    pullPolicy: IfNotPresent
+  initImage: busybox:latest
+  password: vprodbpass
+  service:
+    type: ClusterIP
+    port: 3306
+  persistence:
+    accessMode: ReadWriteOnce
+    size: 3Gi
+    storageClassName: ""
+  storageClass:
+    create: true
+    provisioner: ebs.csi.aws.com
+    type: gp3
+    encrypted: false
+    reclaimPolicy: Delete
+    volumeBindingMode: WaitForFirstConsumer
+    allowVolumeExpansion: true
+    default: true
+  resources:
+    requests:
+      cpu: "500m"
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  initResources:
+    requests:
+      cpu: 10m
+      memory: 16Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+
+cache:
+  replicaCount: 1
+  image:
+    repository: memcached
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 11211
+  resources:
+    requests:
+      cpu: "500m"
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+rabbitmq:
+  replicaCount: 1
+  username: guest
+  password: guest
+  image:
+    repository: rabbitmq
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 5672
+  resources:
+    requests:
+      cpu: "500m"
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+application:
+  replicaCount: 1
+  initImage: busybox:1.28
+  image:
+    repository: meissa20/vproapp
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8080
+  resources:
+    requests:
+      cpu: "500m"
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix

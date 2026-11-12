@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpromc
+  labels:
+    app: vpromc
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vpromc
+  template:
+    metadata:
+      labels:
+        app: vpromc
+    spec:
+      containers:
+        - name: vpromc
+          image: memcached:latest
+          ports:
+            - containerPort: 11211
+              name: vpromc-port
+          resources:
+            requests:
+              cpu: "500m"
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
