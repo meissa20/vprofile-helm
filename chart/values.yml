@@ -78,7 +78,7 @@ application:
   initImage: busybox:1.28
   image:
     repository: 454983519185.dkr.ecr.eu-west-1.amazonaws.com/vprofileapp-img
-    tag: 37efbf0cce89a53e879502414de8cd989bd4760d
+    tag: 4c2e71927fd8d1b7464b998e193942cf90b9ed62
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
