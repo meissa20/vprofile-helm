@@ -30,7 +30,7 @@ database:
       cpu: "500m"
       memory: 512Mi
     limits:
-      cpu: "1"
+      cpu: "0.5"
       memory: 1Gi
   initResources:
     requests:
@@ -53,7 +53,7 @@ cache:
       cpu: "500m"
       memory: 512Mi
     limits:
-      cpu: "1"
+      cpu: "0.5"
       memory: 1Gi
 rabbitmq:
   replicaCount: 1
@@ -71,7 +71,7 @@ rabbitmq:
       cpu: "500m"
       memory: 512Mi
     limits:
-      cpu: "1"
+      cpu: "0.5"
       memory: 1Gi
 application:
   replicaCount: 1
@@ -88,7 +88,7 @@ application:
       cpu: "500m"
       memory: 512Mi
     limits:
-      cpu: "1"
+      cpu: "0.5"
       memory: 1Gi
 ingress:
   enabled: true
@@ -98,6 +98,7 @@ ingress:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
     alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/subnets: subnet-01dd9e730217fc102,subnet-01534bfc7a03d2050
   hosts:
     - host: ""
       paths:
